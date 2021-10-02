@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conversao-peso-deployment
+  labels:
+    app: conversao-peso-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: conversao-peso-web
+  template:
+    metadata:
+      labels:
+        app: conversao-peso-web
+    spec:
+      containers:
+        - name: conversao-peso-web
+          image: eduosumi/conversao-peso:v1.0
+          ports:
+            - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: conversao-peso-web
+spec:
+  selector:
+    app: conversao-peso-web
+  ports:
+    - port: 80
+      nodePort: 30001
+  type: NodePort
